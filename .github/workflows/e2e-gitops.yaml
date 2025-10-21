@@ -43,8 +43,8 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker build -t docker.io/ejayarma/training-repo:mario-game-${{ env.VERSION }} .
-          docker push docker.io/ejayarma/training-repo:mario-game-${{ env.VERSION }}
+          docker build -t docker.io/66snowden/devsecops-training:mario-game-${{ env.VERSION }} .
+          docker push docker.io/66snowden/devsecops-training:mario-game-${{ env.VERSION }}
 
   run_container_image_scan_on_supermario_docker_image:
     runs-on: ubuntu-latest
@@ -59,8 +59,8 @@ jobs:
 
       - name: Get Docker Image from Docker Hub
         run: |
-          docker pull docker.io/ejayarma/training-repo:mario-game-${{ env.VERSION }}
-          docker save -o supermariolatestdockerimage.tar docker.io/ejayarma/training-repo:mario-game-${{ env.VERSION }}
+          docker pull docker.io/66snowden/devsecops-training:mario-game-${{ env.VERSION }}
+          docker save -o supermariolatestdockerimage.tar docker.io/66snowden/devsecops-training:mario-game-${{ env.VERSION }}
 
       - name: Run Trivy vulnerability scanner in tarball mode
         uses: aquasecurity/trivy-action@master
@@ -85,7 +85,7 @@ jobs:
       - name: Update Deployment YAML
         run: |
           git pull
-          sed -i "s|image: ejayarma/training-repo:.*$|image: ejayarma/training-repo:${{ env.VERSION }}|" deployment.yaml
+          sed -i "s|image: 66snowden/devsecops-training:.*$|image: 66snowden/devsecops-training:${{ env.VERSION }}|" deployment.yaml
           echo ${{ env.VERSION }} > version.txt
           CURRENT_VERSION=mario-game-${{ env.VERSION }}
           git add deployment.yaml version.txt
